@@ -36,7 +36,7 @@ export const projects: Project[] = [
     title: "Ghost Frame",
     headline: "Image effects for strange ideas",
     category: "Creative tool",
-    status: "Case study soon",
+    status: "Case study",
     description:
       "An image-effects playground for creating eerie, distorted, and experimental visuals in the browser.",
     role: "Product design + build",
@@ -44,7 +44,8 @@ export const projects: Project[] = [
     image: "/images/projects/ghost-frame-cover.png",
     imageAlt: "Monochrome portrait with a multi-exposure ghost effect",
     layout: "reverse",
-    linkLabel: "Case study coming next",
+    href: "/projects/ghost-frame",
+    linkLabel: "View Ghost Frame case study",
   },
   {
     slug: "fluxor-ai",
