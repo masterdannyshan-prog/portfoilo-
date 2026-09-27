@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 const experience = [
-  { period: "May 2025 - April 2026", role: "UI/UX Designer", company: "Purple Merit", detail: "Product flows, interface systems, and handoff for web and mobile." },
-  { period: "August 2024 - November 2024", role: "Junior Designer", company: "Excrin Digital Lab", detail: "Responsive client websites and visual assets." },
+  { period: "May 2025 - April 2026", role: "UI/UX Designer", company: "Purple Merit", detail: "Moved from intern to full-time designer, owning product flows, interface systems, and handoff across web and mobile work." },
+  { period: "August 2024 - November 2024", role: "Junior Designer", company: "Excrin Digital Lab", detail: "Designed responsive client websites and visual assets while working closely with the wider creative team." },
 ];
 
 const education = [
@@ -36,7 +36,8 @@ export function AboutSection() {
             </p>
             <p>
               Over the last 11 months, I&apos;ve worked across product design,
-              visual systems, and frontend execution. SiteScope and Ghost Frame
+              visual systems, and frontend execution. Projects such as SiteScope
+              and Ghost Frame
               show how I move from Figma to a deployed product.
             </p>
           </div>
