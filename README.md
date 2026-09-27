@@ -11,4 +11,6 @@ pnpm dev
 
 Open the local address printed by Next.js. To check the production build, run `pnpm build`.
 
+On Darshan's Windows PC, Task Scheduler runs `scripts/start-local-preview.ps1` at sign-in so the local preview is available at `http://localhost:3007/`. The task is named `Darshan Portfolio Localhost 3007`; its log is in the ignored `artifacts/local-preview.log` file. This local address works only while that PC is on and signed in.
+
 Project content lives in `src/data/`, page and section components in `src/app/` and `src/components/`, and local assets in `public/`.
