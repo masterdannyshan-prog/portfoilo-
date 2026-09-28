@@ -17,6 +17,12 @@ try {
     throw "Portfolio dependencies are missing. Run pnpm install in $portfolioDirectory."
   }
 
+  $listener = Get-NetTCPConnection -LocalPort 3007 -State Listen -ErrorAction SilentlyContinue
+  if ($listener) {
+    Write-Output "Port 3007 is already in use by process $($listener[0].OwningProcess); skipping another preview server."
+    exit 0
+  }
+
   Set-Location -LiteralPath $portfolioDirectory
   & $nodeExecutable $nextExecutable dev -p 3007
   exit $LASTEXITCODE
