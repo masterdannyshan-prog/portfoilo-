@@ -1544,24 +1544,37 @@ button:focus-visible {
 
   .mobile-nav {
     position: absolute;
-    top: 64px;
-    right: 0;
-    left: 0;
+    top: calc(100% + 4px);
+    right: var(--page-gutter);
+    left: var(--page-gutter);
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    padding: 18px 20px;
-    background: rgba(255, 255, 255, 0.98);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--page);
+    box-shadow: 0 12px 32px rgba(21, 34, 53, 0.08);
     font-family: var(--font-sans), sans-serif;
     font-size: 13px;
     text-align: center;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transform: translateY(-8px);
+    transform: translateY(-6px);
     transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .mobile-nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
   }
 
   .mobile-nav.is-open {
     opacity: 1;
+    visibility: visible;
     pointer-events: auto;
     transform: translateY(0);
   }
@@ -1570,8 +1583,8 @@ button:focus-visible {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     column-gap: var(--grid-gap);
     align-items: flex-end;
-    min-height: calc(100svh - 64px);
-    padding: clamp(130px, 22vh, 220px) var(--page-gutter) 48px;
+    min-height: 0;
+    padding: clamp(150px, 18svh, 180px) var(--page-gutter) clamp(88px, 12svh, 120px);
   }
 
   .hero h1 {
@@ -1896,11 +1909,6 @@ button:focus-visible {
 }
 
 @media (max-width: 420px) {
-  .hero {
-    gap: 34px;
-    padding-top: 108px;
-  }
-
   .hero h1 {
     max-width: 330px;
     font-size: clamp(34px, 9vw, 38px);
