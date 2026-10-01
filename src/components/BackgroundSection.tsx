@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { siClaude, siCursor, siDavinciresolve, siFigma, siFramer } from "simple-icons";
+import { siCursor, siDavinciresolve, siFramer } from "simple-icons";
 
 const experience = [
   {
@@ -27,21 +27,21 @@ const education = [
   },
   {
     period: "2020 - 2023",
-    course: "Bachelor of Commerce",
-    school: "University of Madras",
-    detail: "Undergraduate degree in commerce.",
+    course: "B.Com (General)",
+    school: "S.A. College of Arts & Science",
+    detail: "Affiliated to the University of Madras",
   },
 ];
 
 const tools = [
-  { name: "Figma", use: "UI/UX design & prototyping", className: "figma", mark: siFigma.path },
-  { name: "Photoshop", use: "Image editing & composites", className: "photoshop", initials: "Ps" },
-  { name: "Illustrator", use: "Illustration & graphics", className: "illustrator", initials: "Ai" },
+  { name: "Figma", use: "UI/UX design & prototyping", className: "figma", logo: "/images/tools/figma.svg" },
+  { name: "Photoshop", use: "Image editing & composites", className: "photoshop", logo: "/images/tools/adobe-photoshop.svg" },
+  { name: "Illustrator", use: "Illustration & graphics", className: "illustrator", logo: "/images/tools/adobe-illustrator.svg" },
   { name: "Framer", use: "Web design & development", className: "framer", mark: siFramer.path },
-  { name: "After Effects", use: "Motion graphics & video", className: "after-effects", initials: "Ae" },
+  { name: "After Effects", use: "Motion graphics & video", className: "after-effects", logo: "/images/tools/adobe-after-effects.svg" },
   { name: "DaVinci Resolve", use: "Video editing & color", className: "davinci", mark: siDavinciresolve.path },
   { name: "Cursor", use: "AI-powered development", className: "cursor", mark: siCursor.path },
-  { name: "Claude AI", use: "Research & ideation", className: "claude", mark: siClaude.path },
+  { name: "Claude AI", use: "Research & ideation", className: "claude", logo: "/images/tools/claude.svg" },
 ];
 
 function GraduationIcon() {
@@ -104,10 +104,12 @@ export function BackgroundSection() {
           {tools.map((tool) => (
             <li className="tool-card" key={tool.name}>
               <span className={`tool-mark tool-mark-${tool.className}`} aria-hidden="true">
-                {tool.mark ? (
+                {tool.logo ? (
+                  <Image src={tool.logo} alt="" width={48} height={48} className="tool-logo" />
+                ) : tool.mark ? (
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d={tool.mark} /></svg>
                 ) : (
-                  <span className="tool-initials">{tool.initials}</span>
+                  null
                 )}
               </span>
               <h3>{tool.name}</h3>

@@ -2,19 +2,19 @@ import Image from "next/image";
 
 const process = [
   {
-    title: "Think through the problem",
-    description: "Find the right problems, talk to users, and turn ambiguity into clarity.",
+    title: "Understand the problem",
+    description: "I define the goal, explore users’ needs, and map out what the product needs to do.",
     art: "problem",
   },
   {
-    title: "Design the experience",
-    description: "Create intuitive, polished experiences that people enjoy using.",
+    title: "Shape the experience",
+    description: "I organize the flows, structure the content, and create interfaces that feel easy to use.",
     art: "design",
   },
   {
-    title: "Build & refine",
-    description: "Bring designs to life, iterate fast, and ship real products.",
-    art: "build",
+    title: "Refine the details",
+    description: "I review the design, improve what feels unclear, and make each screen consistent and polished.",
+    art: "refine",
   },
 ] as const;
 
@@ -22,16 +22,18 @@ function ProcessArt({ kind }: { kind: (typeof process)[number]["art"] }) {
   if (kind === "problem") {
     return (
       <div className="process-art process-art-problem" aria-hidden="true">
-        <div className="process-note">
-          <span>User needs</span>
-          <span>Business goals</span>
-          <span>Technical scope</span>
+        <div className="research-note research-note-goal">
+          <span className="research-note-label">Business goal</span>
+          <span>Make it simpler</span>
         </div>
-        <svg className="process-bulb" viewBox="0 0 80 80" fill="none" aria-hidden="true">
-          <path d="M27 50c0-7-11-10-11-25C16 11 27 2 40 2s24 9 24 23c0 15-11 18-11 25" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-          <path d="M28 53h24M30 61h20M34 68h12M40 32v20m-9-15 9 7 9-7" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M5 21 0 19m8-9-4-4m71 15 5-2m-8-9 4-4M40 0v-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-        </svg>
+        <div className="research-note research-note-need">
+          <span className="research-note-label">User need</span>
+          <span>Find the next step</span>
+        </div>
+        <div className="research-note research-note-question">
+          <span className="research-note-label">Question</span>
+          <span>What feels unclear?</span>
+        </div>
       </div>
     );
   }
@@ -39,30 +41,44 @@ function ProcessArt({ kind }: { kind: (typeof process)[number]["art"] }) {
   if (kind === "design") {
     return (
       <div className="process-art process-art-design" aria-hidden="true">
-        <div className="process-screen">
-          <div className="process-screen-top"><i /><i /><i /></div>
-          <div className="process-screen-body">
-            <span className="process-screen-image" />
-            <span className="process-screen-lines"><i /><i /><i /></span>
+        <div className="flow-track">
+          <div className="flow-screen flow-screen-start">
+            <span className="flow-screen-bar" />
+            <span className="flow-screen-block" />
+            <span className="flow-screen-line" />
           </div>
-          <div className="process-screen-footer"><i /><i /></div>
+          <span className="flow-connector" />
+          <div className="flow-screen flow-screen-middle">
+            <span className="flow-screen-bar" />
+            <span className="flow-screen-line" />
+            <span className="flow-screen-line flow-screen-line-short" />
+            <span className="flow-screen-block" />
+          </div>
+          <span className="flow-connector" />
+          <div className="flow-screen flow-screen-finish">
+            <span className="flow-screen-bar" />
+            <span className="flow-screen-hero" />
+            <span className="flow-screen-line" />
+            <span className="flow-screen-button" />
+          </div>
         </div>
-        <svg className="process-cursor" viewBox="0 0 34 38" fill="none" aria-hidden="true">
-          <path d="M2 2v29l8-7 7 12 6-4-7-12 12-2L2 2Z" fill="currentColor" stroke="#fff" strokeWidth="2" strokeLinejoin="round" />
-        </svg>
       </div>
     );
   }
 
   return (
-    <div className="process-art process-art-build" aria-hidden="true">
-      <div className="process-terminal">
-        <span className="process-terminal-dots"><i /><i /><i /></span>
-        <code>
-          <span>const idea = design()</span>
-          <span>.build()</span>
-          <span>.ship();</span>
-        </code>
+    <div className="process-art process-art-refine" aria-hidden="true">
+      <div className="refine-card refine-card-before">
+        <span className="refine-card-label">Before</span>
+        <span className="refine-card-title" />
+        <span className="refine-card-copy" />
+        <span className="refine-card-button" />
+      </div>
+      <div className="refine-card refine-card-after">
+        <span className="refine-card-label">After</span>
+        <span className="refine-card-title" />
+        <span className="refine-card-copy" />
+        <span className="refine-card-button" />
       </div>
     </div>
   );
@@ -84,8 +100,10 @@ export function AboutSection() {
 
         <div className="about-details">
           <p className="about-label">About Darshan</p>
-          <h2 id="about-title">I design products<br className="about-desktop-break" /> and build them too.</h2>
-          <p className="about-subtitle">From early ideas to usable, shipped experiences.</p>
+          <h2 id="about-title">I design products and bring them to life.</h2>
+          <p className="about-subtitle">
+            I take ideas through research, UX decisions, and Figma design, then work with AI-assisted development to turn them into usable, launched products.
+          </p>
 
           <div className="process-grid" aria-label="How Darshan works">
             {process.map((step) => (

@@ -1,6 +1,7 @@
 import { ContactCta } from "@/components/ContactCta";
 
 const resumeHref = "/Darshan-UI-UX-Designer-Resume.pdf";
+const contactEmail = "darshanmass3007@gmail.com";
 
 export function ContactSection() {
   return (
@@ -14,7 +15,8 @@ export function ContactSection() {
             I&apos;m open to product design and UI/UX roles. If my work fits your
             team, I&apos;d love to hear from you.
           </p>
-          <ContactCta />
+          <ContactCta email={contactEmail} />
+          <p className="contact-email">{contactEmail}</p>
         </div>
       </div>
 

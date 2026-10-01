@@ -1,40 +1,33 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeftIcon } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
+import { ArrowLeftIcon, ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { SiteHeader } from "@/components/SiteHeader";
-import { ghostFrameCaseStudyText } from "@/data/ghost-frame-case-study";
+import { CaseStudyVideo } from "@/components/SiteScopeHeroVideo";
+import {
+  ghostFrameCaseStudy,
+  type GhostFrameMedia,
+  type GhostFrameSection,
+} from "@/data/ghost-frame-case-study";
 
 export const metadata: Metadata = {
   title: "Ghost Frame Case Study | Darshan",
   description:
-    "Darshan's complete design and build case study for Ghost Frame, a browser-based image effects studio.",
+    "How Darshan shaped the UX and visual direction of Ghost Frame, a browser-based image-effects studio.",
 };
 
-const sectionTitles = [
+const chapters = [
   "Overview",
-  "My Role",
-  "Timeline",
   "The Problem",
-  "Product Structure",
-  "Architecture Pivot",
-  "Information Architecture",
-  "Visual System",
-  "Landing Page",
-  "Effects Page",
-  "Editor",
-  "Effects Library",
-  "Responsive Design",
-  "Why Canvas API",
-  "Supabase",
-  "What I'd Do Differently",
-  "What Worked",
-  "Building With Claude Code",
-  "Outcome",
-] as const;
-
-type SectionTitle = (typeof sectionTitles)[number];
-type CaseSection = { title: SectionTitle; lines: string[] };
+  "Research and Product Direction",
+  "Design System",
+  "Design Process",
+  "UX Decisions Made",
+  "Motion and Interaction",
+  "The Architecture Change",
+  "Final Designs",
+  "Limitations and Next Steps",
+];
 
 function sectionId(title: string) {
   return title
@@ -43,91 +36,90 @@ function sectionId(title: string) {
     .replace(/^-|-$/g, "");
 }
 
-const groups = ghostFrameCaseStudyText.trim().split(/\n{3,}/);
-const sections: CaseSection[] = sectionTitles.map((title, index) => ({
-  title,
-  lines: groups[index].split("\n"),
-}));
-const closingLine = groups[sectionTitles.length];
+function MediaSlot({
+  media,
+  mediaType = "image",
+}: {
+  media: GhostFrameMedia;
+  mediaType?: "image" | "video";
+}) {
+  const hasImage = Boolean(media.src && media.width && media.height);
 
-const chapters = [
-  "Overview",
-  "The Problem",
-  "Architecture Pivot",
-  "Visual System",
-  "Landing Page",
-  "Effects Page",
-  "Editor",
-  "Why Canvas API",
-  "Outcome",
-] as const satisfies readonly SectionTitle[];
+  if (mediaType === "video" && media.src) {
+    return (
+      <figure className="case-annotated-figure" data-asset-key={media.assetKey} data-media-type={mediaType}>
+        <CaseStudyVideo src={media.src} productName="Ghost Frame" />
+        <figcaption>{media.caption}</figcaption>
+      </figure>
+    );
+  }
 
-const compactSections = new Set<SectionTitle>(["My Role", "Timeline"]);
-const rowSections = new Set<SectionTitle>([
-  "Product Structure",
-  "Architecture Pivot",
-  "Visual System",
-  "Effects Library",
-  "What I'd Do Differently",
-  "What Worked",
-  "Building With Claude Code",
-]);
-
-// Indices refer to lines in the original, unchanged Ghost Frame text.
-const pointRanges = new Map<SectionTitle, readonly [number, number]>([
-  ["Product Structure", [1, 8]],
-  ["Architecture Pivot", [2, 5]],
-  ["Visual System", [2, 8]],
-  ["Editor", [3, 5]],
-  ["Effects Library", [1, 7]],
-  ["Building With Claude Code", [3, 8]],
-]);
-
-const mediaAfter = new Map<SectionTitle, string[]>([
-  ["The Problem", ["Problem context or reference imagery"]],
-  ["Architecture Pivot", ["Architecture before and after"]],
-  ["Visual System", ["Ghost Frame typography and interface system"]],
-  ["Landing Page", ["Landing page video and before-and-after interaction"]],
-  ["Effects Page", ["Effects gallery and blinds animation"]],
-  ["Editor", ["Editor canvas and controls", "Effect categories and sliders"]],
-  ["Why Canvas API", ["Canvas processing or effect comparison"]],
-]);
-
-function MediaSlot({ label, square = false }: { label: string; square?: boolean }) {
   return (
-    <div
-      className={`case-media-slot${square ? " case-media-slot--square" : ""}`}
-      role="img"
-      aria-label={label}
-    >
-      <span>{label}</span>
-    </div>
+    <figure className="case-annotated-figure" data-asset-key={media.assetKey} data-media-type={mediaType}>
+      <div
+        className={`case-media-slot${hasImage ? " case-media-slot--image" : ""}`}
+        role="img"
+        aria-label={media.label}
+        style={hasImage ? { aspectRatio: `${media.width} / ${media.height}` } : undefined}
+      >
+        {hasImage ? (
+          <Image
+            src={media.src!}
+            alt=""
+            fill
+            sizes="(max-width: 768px) calc(100vw - 48px), (max-width: 1200px) 75vw, 960px"
+          />
+        ) : (
+          <span>{media.label}</span>
+        )}
+      </div>
+      <figcaption>{media.caption}</figcaption>
+    </figure>
   );
 }
 
-function SectionLines({ section }: { section: CaseSection }) {
-  const blocks = [];
-  const pointRange = pointRanges.get(section.title);
+function SectionContent({ section }: { section: GhostFrameSection }) {
+  return (
+    <>
+      {section.flow ? (
+        <ol className="case-process-flow" aria-label="Ghost Frame design process">
+          {section.flow.map((step) => <li key={step}>{step}</li>)}
+        </ol>
+      ) : null}
 
-  for (let index = 0; index < section.lines.length; index += 1) {
-    const line = section.lines[index];
+      {section.paragraphs ? (
+        <div className="case-section-copy">
+          {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        </div>
+      ) : null}
 
-    if (pointRange && index === pointRange[0]) {
-      blocks.push(
-        <ul className="case-point-list" key={`${section.title}-points`}>
-          {section.lines.slice(pointRange[0], pointRange[1]).map((point) => (
-            <li key={point}>{point.replace(/^- /, "")}</li>
+      {section.decisions ? (
+        <div className="case-annotated-list">
+          {section.decisions.map((decision) => (
+            <div className="case-decision" key={decision.heading}>
+              <h3>{decision.heading}</h3>
+              <p>{decision.explanation}</p>
+              <MediaSlot media={decision.media} />
+            </div>
           ))}
-        </ul>,
-      );
-      index = pointRange[1] - 1;
-      continue;
-    }
+        </div>
+      ) : null}
 
-    blocks.push(<p key={`${section.title}-${index}`}>{line}</p>);
-  }
+      {section.media?.length === 1 ? <MediaSlot media={section.media[0]} /> : null}
 
-  return <div className="case-section-copy">{blocks}</div>;
+      {section.media && section.media.length > 1 ? (
+        <div className="case-annotated-list">
+          {section.media.map((media) => <MediaSlot media={media} key={media.assetKey} />)}
+        </div>
+      ) : null}
+
+      {section.note ? (
+        <div className="case-section-copy">
+          <p>{section.note}</p>
+        </div>
+      ) : null}
+    </>
+  );
 }
 
 export default function GhostFrameCaseStudy() {
@@ -145,9 +137,7 @@ export default function GhostFrameCaseStudy() {
 
             <nav className="case-toc" aria-label="Case study chapters">
               {chapters.map((chapter) => (
-                <a href={`#${sectionId(chapter)}`} key={chapter}>
-                  {chapter}
-                </a>
+                <a href={`#${sectionId(chapter)}`} key={chapter}>{chapter}</a>
               ))}
             </nav>
           </aside>
@@ -155,59 +145,39 @@ export default function GhostFrameCaseStudy() {
           <article className="case-study-article">
             <header className="case-hero">
               <div className="case-hero-heading">
-                <p className="case-project-label">Product design + build</p>
-                <h1>Ghost Frame</h1>
+                <p className="case-project-label">{ghostFrameCaseStudy.sourceLabel}</p>
+                <h1>{ghostFrameCaseStudy.title}</h1>
+                <p className="case-section-intro">{ghostFrameCaseStudy.description}</p>
+                <a
+                  className="case-live-link"
+                  href="https://ghost-frame-one.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span>Live website</span>
+                  <span className="case-live-link-url">ghost-frame-one.vercel.app</span>
+                  <ArrowUpRightIcon size={17} weight="regular" aria-hidden="true" />
+                </a>
               </div>
 
-              <div className="case-media-slot">
-                <Image
-                  src="/images/projects/ghost-frame-cover.png"
-                  alt="Ghost Frame image effects project cover"
-                  width={1600}
-                  height={900}
-                  sizes="(max-width: 768px) 100vw, 768px"
-                  priority
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-              </div>
+              <MediaSlot media={ghostFrameCaseStudy.heroVideo} mediaType="video" />
             </header>
 
             <div className="case-study-sections">
-              {sections.map((section) => {
-                const media = mediaAfter.get(section.title) ?? [];
-                const sectionClasses = [
-                  "case-section",
-                  rowSections.has(section.title) ? "case-section--rows" : "",
-                  compactSections.has(section.title) ? "case-section--compact" : "",
-                ]
-                  .filter(Boolean)
-                  .join(" ");
-
-                return (
-                  <section
-                    id={sectionId(section.title)}
-                    className={sectionClasses}
-                    key={section.title}
-                  >
-                    <h2>{section.title}</h2>
-                    <SectionLines section={section} />
-
-                    {media.length === 1 ? <MediaSlot label={media[0]} /> : null}
-
-                    {media.length > 1 ? (
-                      <div className="case-media-pair">
-                        {media.map((label) => (
-                          <MediaSlot label={label} square key={label} />
-                        ))}
-                      </div>
-                    ) : null}
-                  </section>
-                );
-              })}
+              {ghostFrameCaseStudy.sections.map((section) => (
+                <section
+                  id={sectionId(section.title)}
+                  className={`case-section${section.layout === "compact" ? " case-section--compact" : ""}`}
+                  key={section.title}
+                >
+                  <h2>{section.title}</h2>
+                  <SectionContent section={section} />
+                </section>
+              ))}
             </div>
 
             <footer className="case-study-end">
-              <p>{closingLine}</p>
+              <p>Ghost Frame case study</p>
               <Link href="/#work">Back to selected work</Link>
             </footer>
           </article>
