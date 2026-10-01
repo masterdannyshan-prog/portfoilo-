@@ -26,9 +26,9 @@ export function SiteHeader() {
         <a href={resumeHref} target="_blank" rel="noopener noreferrer">RESUME</a>
       </nav>
 
-      <div className="availability" aria-label="Available for full-time design roles">
+      <div className="availability" aria-label="Open to work in design roles">
         <span className="availability-mark" aria-hidden="true" />
-        <span>AVAILABLE</span>
+        <span>Open to Work</span>
       </div>
 
       <button
