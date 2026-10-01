@@ -95,7 +95,6 @@ export function AboutSection() {
             fill
             sizes="(max-width: 760px) calc(100vw - 40px), 32vw"
           />
-          <figcaption>Design.<br />Build.<br />Iterate.<br />Repeat.</figcaption>
         </figure>
 
         <div className="about-details">
