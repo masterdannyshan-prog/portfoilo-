@@ -7,7 +7,7 @@ const experience = [
     role: "UI/UX Designer",
     company: "Purple Merit",
     logo: "/images/companies/purple-merit.jpg",
-    detail: "Moved from intern to full-time designer, owning product flows, interface systems, and handoff across web and mobile work.",
+    detail: "Moved from UI/UX intern to a full-time designer. Contributed to web and mobile interface designs, explored user flows, and prepared Figma designs with feedback from the team.",
   },
   {
     period: "August 2024 - November 2024",
