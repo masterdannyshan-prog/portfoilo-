@@ -1,5 +1,6 @@
 import { assertLocalEditorAccess } from "@/lib/local-editor-access";
 import {
+  checkGitHubConnectivity,
   getDeploymentStatus,
   getPublishStatus,
   publishToGitHub,
@@ -29,6 +30,9 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     if (url.searchParams.get("view") === "deployment") {
       return Response.json({ ok: true, deployment: await getDeploymentStatus(url.searchParams.get("commit") ?? undefined) });
+    }
+    if (url.searchParams.get("view") === "connectivity") {
+      return Response.json({ ok: true, connectivity: await checkGitHubConnectivity() });
     }
     return Response.json({ ok: true, status: await getPublishStatus() });
   } catch (error) {

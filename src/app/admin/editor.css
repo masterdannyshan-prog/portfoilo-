@@ -833,6 +833,53 @@ body:has(.portfolio-editor) {
   line-height: 1.5;
 }
 
+.publisher-connectivity {
+  display: grid;
+  max-width: 720px;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin: -4px 0 18px;
+  padding: 12px 14px;
+  border: 1px solid #f0c7bf;
+  border-radius: 10px;
+  background: #fff8f6;
+  color: #a33a28;
+}
+
+.publisher-connectivity.is-connected {
+  border-color: #b7dfd4;
+  background: #f0faf7;
+  color: var(--editor-success);
+}
+
+.publisher-connectivity > svg {
+  width: 20px;
+  height: 20px;
+}
+
+.publisher-connectivity > span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.publisher-connectivity strong {
+  font-size: 12px;
+}
+
+.publisher-connectivity small {
+  overflow-wrap: anywhere;
+  color: var(--editor-muted);
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.publisher-connectivity .editor-secondary {
+  min-height: 36px;
+  padding: 0 12px;
+}
+
 .publisher-file-list,
 .publisher-check-list {
   margin: 16px 0 0;
@@ -968,6 +1015,14 @@ body:has(.portfolio-editor) {
 .publisher-confirmation input {
   letter-spacing: .08em;
   text-transform: uppercase;
+}
+
+.publisher-confirmation-help {
+  max-width: 540px;
+  margin: -5px 0 14px;
+  color: var(--editor-muted);
+  font-size: 11px;
+  line-height: 1.45;
 }
 
 .publisher-live-button {
@@ -1651,6 +1706,15 @@ body:has(.portfolio-editor) {
   .publisher-file-list li {
     grid-template-columns: 68px minmax(0, 1fr);
     padding: 4px 9px;
+  }
+
+  .publisher-connectivity {
+    grid-template-columns: 20px minmax(0, 1fr);
+  }
+
+  .publisher-connectivity .editor-secondary {
+    grid-column: 1 / -1;
+    justify-self: start;
   }
 
   .recovery-intro {

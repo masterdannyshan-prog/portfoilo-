@@ -40,6 +40,11 @@ type Deployment = {
   liveUrl: string;
   commit: string;
 };
+type Connectivity = {
+  online: boolean;
+  label: string;
+  detail: string;
+};
 
 const changeLabels = { new: "New", modified: "Modified", deleted: "Deleted", renamed: "Renamed" } as const;
 
@@ -55,6 +60,8 @@ export function PortfolioPublisher() {
   const [confirmation, setConfirmation] = useState("");
   const [result, setResult] = useState<PublishResult | null>(null);
   const [deployment, setDeployment] = useState<Deployment | null>(null);
+  const [connectivity, setConnectivity] = useState<Connectivity | null>(null);
+  const [connectivityLoading, setConnectivityLoading] = useState(true);
 
   const refreshStatus = useCallback(async () => {
     setLoading(true);
@@ -75,23 +82,41 @@ export function PortfolioPublisher() {
     }
   }, [validatedFingerprint]);
 
-  useEffect(() => {
-    let cancelled = false;
-    fetch("/api/admin/publish", { cache: "no-store" })
-      .then((response) => response.json())
-      .then((payload: { ok: boolean; status?: Status; message?: string }) => {
-        if (cancelled) return;
-        if (!payload.ok || !payload.status) throw new Error(payload.message || "Could not inspect the repository.");
-        setStatus(payload.status);
-        setLoading(false);
-      })
-      .catch((error: unknown) => {
-        if (cancelled) return;
-        setMessage(error instanceof Error ? error.message : "Could not inspect the repository.");
-        setLoading(false);
+  const checkConnectivity = useCallback(async () => {
+    setConnectivityLoading(true);
+    try {
+      const response = await fetch("/api/admin/publish?view=connectivity", { cache: "no-store" });
+      const payload = await response.json() as { ok: boolean; connectivity?: Connectivity; message?: string };
+      if (!payload.ok || !payload.connectivity) throw new Error(payload.message || "Could not check GitHub connectivity.");
+      setConnectivity(payload.connectivity);
+    } catch (error) {
+      setConnectivity({
+        online: false,
+        label: "GitHub connection unavailable",
+        detail: error instanceof Error ? error.message : "Could not check GitHub connectivity.",
       });
-    return () => { cancelled = true; };
+    } finally {
+      setConnectivityLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    const refreshWhenActive = () => {
+      if (document.visibilityState === "visible") {
+        void Promise.all([refreshStatus(), checkConnectivity()]);
+      }
+    };
+    const initialRefresh = window.setTimeout(refreshWhenActive, 0);
+    window.addEventListener("focus", refreshWhenActive);
+    window.addEventListener("online", refreshWhenActive);
+    document.addEventListener("visibilitychange", refreshWhenActive);
+    return () => {
+      window.clearTimeout(initialRefresh);
+      window.removeEventListener("focus", refreshWhenActive);
+      window.removeEventListener("online", refreshWhenActive);
+      document.removeEventListener("visibilitychange", refreshWhenActive);
+    };
+  }, [checkConnectivity, refreshStatus]);
 
   const checkDeployment = useCallback(async (commit: string) => {
     try {
@@ -142,6 +167,7 @@ export function PortfolioPublisher() {
       setValidationToken(payload.validationToken);
       setValidatedFingerprint(payload.status.fingerprint);
       setMessage("Validation passed. Review the file list, then confirm the GitHub publish.");
+      await checkConnectivity();
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Validation failed.");
     } finally {
@@ -183,6 +209,15 @@ export function PortfolioPublisher() {
   const hasPublishableWork = Boolean(status && (status.changes.length > 0 || status.ahead > 0));
   const canValidate = Boolean(status && status.blockedReasons.length === 0 && hasPublishableWork && !busy);
   const canPublish = Boolean(validationToken && confirmation === "PUBLISH" && commitMessage.trim().length >= 3 && !busy);
+  const publishReadiness = !validationToken
+    ? "Validate first"
+    : commitMessage.trim().length < 3
+      ? "Enter a commit message"
+      : confirmation !== "PUBLISH"
+        ? "Type PUBLISH to enable"
+        : connectivity?.online
+          ? "Ready to publish"
+          : "Ready — GitHub will retry";
 
   return (
     <div className="editor-publisher">
@@ -192,7 +227,7 @@ export function PortfolioPublisher() {
           <h2>Publish the reviewed portfolio</h2>
           <p>Validate every listed file, commit it to the connected GitHub main branch, and let Vercel deploy that commit automatically.</p>
         </div>
-        <button type="button" className="editor-secondary" disabled={loading || Boolean(busy)} onClick={() => void refreshStatus()}>
+        <button type="button" className="editor-secondary" disabled={loading || Boolean(busy)} onClick={() => void Promise.all([refreshStatus(), checkConnectivity()])}>
           <ArrowClockwiseIcon aria-hidden="true" /> Refresh
         </button>
       </div>
@@ -260,9 +295,17 @@ export function PortfolioPublisher() {
           <section className={`publisher-card${validationToken ? " is-ready" : ""}`}>
             <div className="publisher-card-head">
               <div><span className="publisher-step">3</span><h3>Commit and publish</h3></div>
-              <span>Internet required</span>
+              <span>{publishReadiness}</span>
             </div>
             <p className="publisher-card-copy">All files shown above will be committed and pushed to <strong>origin/main</strong>. Vercel’s Git integration will then start the live deployment.</p>
+            <div className={`publisher-connectivity${connectivity?.online ? " is-connected" : " is-unavailable"}`}>
+              {connectivityLoading ? <SpinnerGapIcon className="editor-spin" aria-hidden="true" /> : connectivity?.online ? <CheckCircleIcon aria-hidden="true" /> : <WarningCircleIcon aria-hidden="true" />}
+              <span>
+                <strong>{connectivityLoading ? "Checking GitHub connection" : connectivity?.label ?? "GitHub connection not checked"}</strong>
+                <small>{connectivityLoading ? "Testing origin/main from this computer…" : connectivity?.detail ?? "Run the connection check before publishing."}</small>
+              </span>
+              <button type="button" className="editor-secondary" disabled={connectivityLoading || Boolean(busy)} onClick={() => void checkConnectivity()}>Check again</button>
+            </div>
             <label className="editor-field">
               <span>Commit message</span>
               <input maxLength={72} value={commitMessage} onChange={(event) => setCommitMessage(event.target.value)} disabled={!validationToken || Boolean(busy)} />
@@ -271,6 +314,7 @@ export function PortfolioPublisher() {
               <span>Type PUBLISH to confirm</span>
               <input autoComplete="off" value={confirmation} onChange={(event) => setConfirmation(event.target.value.toUpperCase())} disabled={!validationToken || Boolean(busy)} />
             </label>
+            {validationToken && confirmation !== "PUBLISH" ? <p className="publisher-confirmation-help">The button remains disabled until you type <strong>PUBLISH</strong> exactly. The GitHub connection is checked again when you publish.</p> : null}
             <button type="button" className="editor-publish publisher-live-button" disabled={!canPublish} onClick={() => void publish()}>
               {busy === "publish" ? <SpinnerGapIcon className="editor-spin" aria-hidden="true" /> : <CloudArrowUpIcon aria-hidden="true" />}
               {busy === "publish" ? "Publishing…" : "Publish to GitHub and Vercel"}

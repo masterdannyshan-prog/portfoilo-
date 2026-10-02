@@ -35,6 +35,12 @@ export type ValidationStep = {
   detail: string;
 };
 
+export type GitHubConnectivity = {
+  online: boolean;
+  label: string;
+  detail: string;
+};
+
 function runFile(file: string, args: string[], timeout = 300_000, environment: NodeJS.ProcessEnv = process.env): Promise<CommandResult> {
   return new Promise((resolve) => {
     execFile(file, args, {
@@ -79,7 +85,8 @@ function githubUrlForRemote(remote: string) {
 
 function parseChanges(output: string): PublishChange[] {
   if (!output) return [];
-  return output.split(/\r?\n/).filter(Boolean).map((line) => {
+  return output.split(/\r?\n/).filter(Boolean).map((rawLine, index) => {
+    const line = index === 0 && /^[MADRCU] [^ ]/.test(rawLine) ? ` ${rawLine}` : rawLine;
     const status = line.slice(0, 2);
     const rawPath = line.slice(3).trim();
     const filePath = rawPath.startsWith('"') && rawPath.endsWith('"')
@@ -168,6 +175,32 @@ function shortFailure(result: CommandResult) {
   return output.length > 1800 ? `${output.slice(-1800)}\n…` : output;
 }
 
+export async function checkGitHubConnectivity(): Promise<GitHubConnectivity> {
+  const remoteResult = await git(["remote", "get-url", "origin"], true);
+  if (!remoteResult.stdout) {
+    return {
+      online: false,
+      label: "GitHub remote unavailable",
+      detail: "The origin Git remote is not configured.",
+    };
+  }
+
+  const result = await runFile("git", ["ls-remote", "--exit-code", "origin", "refs/heads/main"], 20_000);
+  if (result.exitCode !== 0) {
+    return {
+      online: false,
+      label: "GitHub connection unavailable",
+      detail: shortFailure(result),
+    };
+  }
+
+  return {
+    online: true,
+    label: "GitHub connected",
+    detail: "The origin/main branch is reachable from this computer.",
+  };
+}
+
 export async function validateForPublish() {
   const before = await getPublishStatus();
   if (before.blockedReasons.length) throw new Error(before.blockedReasons.join(" "));
@@ -215,7 +248,7 @@ function cleanCommitMessage(value: string) {
 export async function publishToGitHub(input: { confirmation: string; validationToken: string; commitMessage: string }) {
   if (input.confirmation !== "PUBLISH") throw new Error("Type PUBLISH to confirm the live update.");
   const fetchResult = await git(["fetch", "origin", "main"], true);
-  if (fetchResult.exitCode !== 0) throw new Error(`Could not refresh origin/main. Check the internet connection and GitHub credentials: ${shortFailure(fetchResult)}`);
+  if (fetchResult.exitCode !== 0) throw new Error(`The editor could not refresh origin/main. The computer may be online while this editor process is network-restricted. Reopen it with Open Portfolio Editor.cmd, then retry. Git reported: ${shortFailure(fetchResult)}`);
   const status = await getPublishStatus();
   if (status.blockedReasons.length) throw new Error(status.blockedReasons.join(" "));
   if (status.fingerprint !== input.validationToken) throw new Error("The files changed after validation. Validate again before publishing.");
