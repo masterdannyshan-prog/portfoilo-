@@ -13,3 +13,5 @@ out/
 *.tsbuildinfo
 .DS_Store
 tmp/
+.next-editor/
+.portfolio-drafts/

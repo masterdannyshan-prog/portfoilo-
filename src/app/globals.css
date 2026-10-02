@@ -131,8 +131,8 @@ button:focus-visible {
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: var(--grid-gap);
   align-items: flex-end;
-  min-height: 452px;
-  padding: clamp(210px, 29vh, 300px) var(--page-gutter) 48px;
+  min-height: 345px;
+  padding: clamp(145px, 23vh, 240px) var(--page-gutter) 48px;
 }
 
 .hero-copy {

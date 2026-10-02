@@ -1,17 +1,9 @@
 import type { Metadata } from "next";
-import { FunProjectsSection } from "@/components/FunProjectsSection";
-import { SiteHeader } from "@/components/SiteHeader";
+import { FunView } from "@/components/PortfolioViews";
+import site from "@/content/site.json";
 
-export const metadata: Metadata = {
-  title: "Fun | Darshan",
-  description: "Darshan's creative experiments across motion, posters, and thumbnails.",
-};
+export const metadata: Metadata = site.metadata.fun;
 
 export default function FunPage() {
-  return (
-    <main className="site-shell">
-      <SiteHeader />
-      <FunProjectsSection />
-    </main>
-  );
+  return <FunView />;
 }

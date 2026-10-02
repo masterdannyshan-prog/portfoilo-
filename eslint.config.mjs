@@ -7,6 +7,7 @@ export default defineConfig([
   ...nextTs,
   globalIgnores([
     ".next/**",
+    ".next-editor/**",
     "out/**",
     "build/**",
     "node_modules-corrupt/**",

@@ -4,31 +4,33 @@ import { useState } from "react";
 import { ListIcon, XIcon } from "@phosphor-icons/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import site from "@/content/site.json";
 
-export function SiteHeader() {
+export function SiteHeader({ content = site }: { content?: typeof site }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const onWork = pathname === "/" || pathname.startsWith("/projects/");
   const onFun = pathname === "/fun";
-  const resumeHref = "/Darshan-UI-UX-Designer-Resume.pdf";
+  const [workLink, funLink, aboutLink, resumeLink] = content.header.links;
+  const resumeHref = resumeLink.href;
 
   return (
     <header className="site-header">
-      <Link className="identity" href="/" aria-label="Darshan, home">
-        <span className="identity-name">DARSHAN</span>
-        <span className="identity-role">UI/UX DESIGNER + BUILDER</span>
+      <Link className="identity" href="/" aria-label={content.header.homeAriaLabel}>
+        <span className="identity-name">{content.header.name}</span>
+        <span className="identity-role">{content.header.role}</span>
       </Link>
 
       <nav className="desktop-nav" aria-label="Primary navigation">
-        <Link className={onWork ? "is-active" : undefined} href="/#work">WORK</Link>
-        <Link className={onFun ? "is-active" : undefined} href="/fun">FUN</Link>
-        <Link href="/#about">ABOUT</Link>
-        <a href={resumeHref} target="_blank" rel="noopener noreferrer">RESUME</a>
+        <Link className={onWork ? "is-active" : undefined} href={workLink.href}>{workLink.label}</Link>
+        <Link className={onFun ? "is-active" : undefined} href={funLink.href}>{funLink.label}</Link>
+        <Link href={aboutLink.href}>{aboutLink.label}</Link>
+        <a href={resumeHref} target="_blank" rel="noopener noreferrer">{resumeLink.label}</a>
       </nav>
 
-      <div className="availability" aria-label="Open to work in design roles">
+      <div className="availability" aria-label={content.header.availabilityAriaLabel}>
         <span className="availability-mark" aria-hidden="true" />
-        <span>Open to Work</span>
+        <span>{content.header.availability}</span>
       </div>
 
       <button
@@ -51,10 +53,10 @@ export function SiteHeader() {
         className={`mobile-nav${menuOpen ? " is-open" : ""}`}
         aria-label="Mobile navigation"
       >
-        <Link href="/#work" onClick={() => setMenuOpen(false)}>WORK</Link>
-        <Link href="/fun" onClick={() => setMenuOpen(false)}>FUN</Link>
-        <Link href="/#about" onClick={() => setMenuOpen(false)}>ABOUT</Link>
-        <a href={resumeHref} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>RESUME</a>
+        <Link href={workLink.href} onClick={() => setMenuOpen(false)}>{workLink.label}</Link>
+        <Link href={funLink.href} onClick={() => setMenuOpen(false)}>{funLink.label}</Link>
+        <Link href={aboutLink.href} onClick={() => setMenuOpen(false)}>{aboutLink.label}</Link>
+        <a href={resumeHref} target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>{resumeLink.label}</a>
       </nav>
     </header>
   );

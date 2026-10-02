@@ -1,0 +1,216 @@
+{
+  "metadata": {
+    "home": {
+      "title": "Darshan | UI/UX Designer",
+      "description": "Darshan is a UI/UX designer who turns ideas into working digital products."
+    },
+    "fun": {
+      "title": "Fun | Darshan",
+      "description": "Darshan's creative experiments across motion, posters, and thumbnails."
+    }
+  },
+  "header": {
+    "name": "DARSHAN",
+    "homeAriaLabel": "Darshan, home",
+    "role": "UI/UX DESIGNER +  AI BUILDER",
+    "links": [
+      {
+        "label": "WORK",
+        "href": "/#work"
+      },
+      {
+        "label": "FUN",
+        "href": "/fun"
+      },
+      {
+        "label": "ABOUT",
+        "href": "/#about"
+      },
+      {
+        "label": "RESUME",
+        "href": "/Darshan-UI-UX-Designer-Resume.pdf",
+        "newTab": true
+      }
+    ],
+    "availability": "Open to Work",
+    "availabilityAriaLabel": "Open to work in design roles"
+  },
+  "hero": {
+    "headline": "I’m Darshan, a UI/UX designer who builds products."
+  },
+  "work": {
+    "heading": "Selected projects",
+    "buttonLabel": "View project",
+    "pendingLabel": "Case study soon"
+  },
+  "fun": {
+    "kicker": "Side quests",
+    "headline": "Things I make when curiosity takes over.",
+    "summary": "Interactive experiments, motion, posters, and thumbnails that let me explore new ways to tell stories and make things useful."
+  },
+  "about": {
+    "portrait": {
+      "src": "/images/profile/darshan-profile.png",
+      "alt": "Darshan, UI/UX designer, photographed outdoors"
+    },
+    "label": "About Darshan",
+    "headline": "I design products and bring them to life.",
+    "subtitle": "I take ideas through research, UX decisions, and Figma design, then work with AI-assisted development to turn them into usable, launched products.",
+    "processAriaLabel": "How Darshan works",
+    "process": [
+      {
+        "title": "Understand the problem",
+        "description": "I define the goal, explore users’ needs, and map out what the product needs to do.",
+        "art": "problem"
+      },
+      {
+        "title": "Shape the experience",
+        "description": "I organize the flows, structure the content, and create interfaces that feel easy to use.",
+        "art": "design"
+      },
+      {
+        "title": "Refine the details",
+        "description": "I review the design, improve what feels unclear, and make each screen consistent and polished.",
+        "art": "refine"
+      }
+    ],
+    "artLabels": {
+      "businessGoal": "Business goal",
+      "simpler": "Make it simpler",
+      "userNeed": "User need",
+      "nextStep": "Find the next step",
+      "question": "Question",
+      "unclear": "What feels unclear?",
+      "before": "Before",
+      "after": "After"
+    }
+  },
+  "background": {
+    "experience": {
+      "label": "Experience",
+      "headline": "Where I've worked",
+      "intro": "I've worked with teams on real products and learned at every step.",
+      "items": [
+        {
+          "period": "May 2025 - April 2026",
+          "role": "UI/UX Designer",
+          "company": "Purple Merit",
+          "logo": "/images/companies/purple-merit.jpg",
+          "detail": "Moved from UI/UX intern to a full-time designer. Contributed to web and mobile interface designs, explored user flows, and prepared Figma designs with feedback from the team."
+        },
+        {
+          "period": "August 2024 - November 2024",
+          "role": "Junior Designer",
+          "company": "Excrin Digital Lab",
+          "logo": "/images/companies/excrin-digital-lab.jpg",
+          "detail": "Designed responsive client websites and visual assets while working closely with the wider creative team."
+        }
+      ]
+    },
+    "education": {
+      "label": "Education",
+      "items": [
+        {
+          "period": "2023 - 2025",
+          "course": "UI/UX & Graphic Design Certification",
+          "school": "Image Creative Education",
+          "detail": "Formal training in UI/UX and graphic design."
+        },
+        {
+          "period": "2020 - 2023",
+          "course": "B.Com (General)",
+          "school": "S.A. College of Arts & Science",
+          "detail": "Affiliated to the University of Madras"
+        }
+      ]
+    },
+    "tools": {
+      "label": "Tools",
+      "headline": "Tools I work with",
+      "intro": "A practical toolkit from design to launch.",
+      "ariaLabel": "Design and build tools",
+      "items": [
+        {
+          "name": "Figma",
+          "use": "UI/UX design & prototyping",
+          "className": "figma",
+          "logo": "/images/tools/figma.svg"
+        },
+        {
+          "name": "Photoshop",
+          "use": "Image editing & composites",
+          "className": "photoshop",
+          "logo": "/images/tools/adobe-photoshop.svg"
+        },
+        {
+          "name": "Illustrator",
+          "use": "Illustration & graphics",
+          "className": "illustrator",
+          "logo": "/images/tools/adobe-illustrator.svg"
+        },
+        {
+          "name": "Framer",
+          "use": "Web design & development",
+          "className": "framer",
+          "mark": "framer"
+        },
+        {
+          "name": "After Effects",
+          "use": "Motion graphics & video",
+          "className": "after-effects",
+          "logo": "/images/tools/adobe-after-effects.svg"
+        },
+        {
+          "name": "DaVinci Resolve",
+          "use": "Video editing & color",
+          "className": "davinci",
+          "mark": "davinci"
+        },
+        {
+          "name": "Cursor",
+          "use": "AI-powered development",
+          "className": "cursor",
+          "mark": "cursor"
+        },
+        {
+          "name": "Claude AI",
+          "use": "Research & ideation",
+          "className": "claude",
+          "logo": "/images/tools/claude.svg"
+        }
+      ]
+    }
+  },
+  "contact": {
+    "label": "Contact",
+    "headline": "Let's work together.",
+    "description": "I'm open to product design and UI/UX roles. If my work fits your team, I'd love to hear from you.",
+    "email": "darshanmass3007@gmail.com",
+    "buttonLabel": "Email Darshan",
+    "credit": "Designed and built by Darshan",
+    "links": [
+      {
+        "label": "Resume",
+        "href": "/Darshan-UI-UX-Designer-Resume.pdf"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/darshananandan/"
+      },
+      {
+        "label": "Behance",
+        "href": "https://www.behance.net/darshananandan"
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/masterdannyshan-prog"
+      }
+    ]
+  },
+  "caseStudyChrome": {
+    "backLabel": "Back",
+    "backHref": "/#work",
+    "chaptersAriaLabel": "Case study chapters",
+    "liveLabel": "Live website"
+  }
+}

@@ -151,7 +151,3 @@ export function CaseStudyVideo({
     </div>
   );
 }
-
-export function SiteScopeHeroVideo() {
-  return <CaseStudyVideo src="/videos/sitescope-demo.mp4" productName="SiteScope" />;
-}

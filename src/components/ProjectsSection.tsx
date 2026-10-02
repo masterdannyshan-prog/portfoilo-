@@ -1,22 +1,23 @@
 import Image from "next/image";
 import { projects, type Project } from "@/data/projects";
 import { CursorFillLabel } from "@/components/CursorFillLabel";
+import site from "@/content/site.json";
 
-export function ProjectsSection() {
+export function ProjectsSection({ items = projects, content = site }: { items?: Project[]; content?: typeof site }) {
   return (
     <section id="work" className="projects-section" aria-labelledby="projects-title">
-      <h2 id="projects-title" className="sr-only">Selected projects</h2>
+      <h2 id="projects-title" className="sr-only">{content.work.heading}</h2>
 
       <div className="project-grid">
-        {projects.map((project) => (
-          <ProjectCard project={project} key={project.slug} />
+        {items.map((project) => (
+          <ProjectCard project={project} buttonLabel={content.work.buttonLabel} pendingLabel={content.work.pendingLabel} key={project.slug} />
         ))}
       </div>
     </section>
   );
 }
 
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({ project, buttonLabel = site.work.buttonLabel, pendingLabel = site.work.pendingLabel }: { project: Project; buttonLabel?: string; pendingLabel?: string }) {
   const opensNewTab = project.href?.startsWith("http");
 
   return (
@@ -29,18 +30,18 @@ export function ProjectCard({ project }: { project: Project }) {
           rel={opensNewTab ? "noreferrer" : undefined}
           aria-label={`${project.linkLabel}: ${project.title}`}
         >
-          <ProjectContent project={project} />
+          <ProjectContent project={project} buttonLabel={buttonLabel} pendingLabel={pendingLabel} />
         </a>
       ) : (
         <div className="project-card-link project-card-link--pending">
-          <ProjectContent project={project} />
+          <ProjectContent project={project} buttonLabel={buttonLabel} pendingLabel={pendingLabel} />
         </div>
       )}
     </article>
   );
 }
 
-function ProjectContent({ project }: { project: Project }) {
+function ProjectContent({ project, buttonLabel, pendingLabel }: { project: Project; buttonLabel: string; pendingLabel: string }) {
   return (
     <>
       <div className="project-media">
@@ -53,7 +54,7 @@ function ProjectContent({ project }: { project: Project }) {
           unoptimized={project.image.startsWith("https://")}
         />
         <CursorFillLabel showArrow={Boolean(project.href)}>
-          {project.href ? "View project" : "Case study soon"}
+          {project.href ? buttonLabel : pendingLabel}
         </CursorFillLabel>
       </div>
 

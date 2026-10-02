@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import site from "@/content/site.json";
 
 const sans = localFont({
   variable: "--font-sans",
@@ -18,10 +19,7 @@ const display = localFont({
   ],
 });
 
-export const metadata: Metadata = {
-  title: "Darshan | UI/UX Designer",
-  description: "Darshan is a UI/UX designer who turns ideas into working digital products.",
-};
+export const metadata: Metadata = site.metadata.home;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
