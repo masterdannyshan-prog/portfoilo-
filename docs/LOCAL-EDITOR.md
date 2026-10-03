@@ -13,7 +13,7 @@ The launcher starts a private development server and opens:
 
 `http://localhost:3010/admin`
 
-The normal portfolio preview on port 3007 can keep running. The editor binds only to this computer at `127.0.0.1` and uses its own build folder and port.
+The separate portfolio preview on port 3007 is optional and does not need to run for editing or for the live Vercel site. The editor binds only to this computer at `127.0.0.1` and uses its own build folder and port.
 
 ## Editing workflow
 

@@ -11,7 +11,7 @@ pnpm dev
 
 Open the local address printed by Next.js. To check the production build, run `pnpm build`.
 
-On Darshan's Windows PC, Task Scheduler runs `scripts/start-local-preview.ps1` at sign-in so the local preview is available at `http://localhost:3007/`. The task is named `Darshan Portfolio Localhost 3007`; its log is in the ignored `artifacts/local-preview.log` file. This local address works only while that PC is on and signed in.
+The public portfolio is hosted on Vercel and does not need a local server running at sign-in. The old Windows task `Darshan Portfolio Localhost 3007` is disabled. For an optional local site preview, start the dev server manually and open the address it prints; close the terminal when finished. The editor has its own on-demand launcher and port 3010.
 
 Editable portfolio content lives in `src/content/` (see its README). Rendering components live in `src/app/` and `src/components/`; local assets live in `public/`. Videos remain under Git LFS through `.gitattributes`.
 

@@ -315,7 +315,7 @@ export function PortfolioEditor() {
     setReviewed(false);
   }
 
-  async function saveDraft(showMessage = true) {
+  async function saveDraft(showMessage = true): Promise<boolean> {
     setBusy(true);
     try {
       const response = await fetch("/api/admin/content", {
@@ -327,15 +327,18 @@ export function PortfolioEditor() {
       if (!result.ok) throw new Error(result.message);
       if (showMessage) setMessage(result.message);
       setPreviewRevision((revision) => revision + 1);
+      return true;
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Could not save draft.");
+      return false;
     } finally {
       setBusy(false);
     }
   }
 
   async function openPreview() {
-    await saveDraft(false);
+    if (!await saveDraft(false)) return;
+    setMessage("Draft saved locally for preview. Nothing was applied or published.");
     if (documentKey === "sitescope") setPreviewView("sitescope");
     else if (documentKey === "ghost-frame") setPreviewView("ghost-frame");
     else if (documentKey.startsWith("case:")) setPreviewView(documentKey);

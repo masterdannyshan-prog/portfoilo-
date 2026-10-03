@@ -7,11 +7,48 @@
     "title": "SiteScope Case Study | Darshan",
     "description": "How Darshan designed SiteScope's website audit experience and directed its implementation with Claude Code."
   },
-  "chapters": ["Overview", "The Problem", "Research Direction", "Design System", "The Process", "Implementation with Claude Code", "UX Decisions Made", "Final Designs", "Limitations and Next Steps"],
-  "liveLink": {"label": "Live website", "url": "https://sitescope-opal-nine.vercel.app/", "display": "sitescope-opal-nine.vercel.app"},
-  "heroVideo": {"src": "/videos/sitescope-demo.mp4", "productName": "SiteScope"},
-  "tryBox": {"title": "Try SiteScope", "description": "Paste one of these URLs into SiteScope to try an audit. They worked well in my testing, but results and timing can vary.", "links": [{"label": "Apple", "url": "https://www.apple.com/"}, {"label": "SpaceX", "url": "https://www.spacex.com/"}, {"label": "Unity", "url": "https://unity.com/"}]},
-  "footer": {"label": "SiteScope case study", "backLabel": "Back to selected work"},
+  "chapters": [
+    "Overview",
+    "The Problem",
+    "Research Direction",
+    "Design System",
+    "The Process",
+    "Implementation with Claude Code",
+    "UX Decisions Made",
+    "Final Designs",
+    "Limitations and Next Steps"
+  ],
+  "liveLink": {
+    "label": "Live website",
+    "url": "https://sitescope-opal-nine.vercel.app/",
+    "display": "sitescope-opal-nine.vercel.app"
+  },
+  "heroVideo": {
+    "src": "/videos/sitescope-demo.mp4",
+    "productName": "SiteScope"
+  },
+  "tryBox": {
+    "title": "Try SiteScope",
+    "description": "Paste one of these URLs into SiteScope to try an audit. They worked well in my testing, but results and timing can vary.",
+    "links": [
+      {
+        "label": "Apple",
+        "url": "https://www.apple.com/"
+      },
+      {
+        "label": "SpaceX",
+        "url": "https://www.spacex.com/"
+      },
+      {
+        "label": "Unity",
+        "url": "https://unity.com/"
+      }
+    ]
+  },
+  "footer": {
+    "label": "SiteScope case study",
+    "backLabel": "Back to selected work"
+  },
   "sections": [
     {
       "title": "Overview",
@@ -31,7 +68,7 @@
       "title": "Timeline",
       "layout": "compact",
       "paragraphs": [
-        "3 days"
+        "5 days"
       ]
     },
     {
@@ -52,7 +89,7 @@
     {
       "title": "Research Direction",
       "paragraphs": [
-        "I drew on my own experience reviewing websites and used ChatGPT and Claude to support market and UX desk research. I considered the needs of freelancers presenting work to clients, founders checking a site they manage, and developers doing a quick pre-launch review. These were working assumptions, not findings from user interviews.",
+        "I drew on my own experience reviewing websites and used ChatGPT and Claude to support market and UX desk research. I considered the needs of freelancers presenting work to clients, founders checking a site they manage, and developers doing a quick pre-launch review. These were working assumptions.",
         "The common need was a fast way to understand the overall picture, identify what matters, and know what to do next."
       ]
     },
