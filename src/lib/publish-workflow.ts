@@ -215,7 +215,7 @@ export async function validateForPublish() {
     { label: "Whitespace and patch safety", file: "git", args: ["diff", "--check"] },
     { label: "Git LFS configuration", file: "git", args: ["lfs", "version"] },
     { label: "Code quality", file: process.execPath, args: ["node_modules/eslint/bin/eslint.js", "."] },
-    { label: "TypeScript", file: process.execPath, args: ["node_modules/typescript/bin/tsc", "--noEmit"] },
+    { label: "TypeScript", file: process.execPath, args: ["node_modules/typescript/bin/tsc", "--noEmit", "--project", "tsconfig.publish.json"] },
     { label: "Production build", file: process.execPath, args: ["node_modules/next/dist/bin/next", "build"], environment: productionEnvironment },
   ];
 

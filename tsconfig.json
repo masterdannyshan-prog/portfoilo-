@@ -33,14 +33,15 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
     ".next-editor/types/**/*.ts",
-    ".next-editor/dev/types/**/*.ts"
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "node_modules-corrupt",
     "node_modules-partial",
-    "node_modules-partial-2"
+    "node_modules-partial-2",
+    ".next/dev/types",
+    ".next-editor/dev/types"
   ]
 }
